@@ -1,86 +1,128 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app) and integrated with the [v0 Platform API](https://v0.app/docs/api/platform/quickstart).
+# AppBuilder - AI-Powered App Generator
 
-## v0 Platform API Integration
+A professional, Cursor-inspired interface for creating apps from prompts using the v0 Platform API. Describe your app, watch it come to life, and edit the generated code in a real code editor.
 
-This project demonstrates how to integrate the v0 Platform API into a Next.js application.
+## Features
 
-### Setup
+- **🎨 Cursor-inspired UI** - Clean, dark-mode interface with professional aesthetics
+- **✨ AI-Powered Generation** - Describe your app and it's generated instantly via v0
+- **📝 Real Code Editor** - CodeMirror 6 with syntax highlighting and auto-completion
+- **👁️ Live Preview** - See your app in action with responsive device preview
+- **📁 File Explorer** - Navigate generated files with a familiar sidebar
+- **🔄 Iterative Refinement** - Refine your app with follow-up prompts
+- **💾 Auto-Save** - Edits persist to localStorage
+- **📱 Responsive** - Works on desktop and mobile
+
+## Tech Stack
+
+- **Next.js 16** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **Tailwind CSS 4** - Utility-first styling
+- **CodeMirror 6** - Professional code editor
+- **v0-sdk** - v0 Platform API integration
+- **lucide-react** - Beautiful icons
+
+## Project Structure
+
+```
+app/
+├── components/
+│   ├── ui/              # Reusable UI components
+│   │   ├── button.tsx
+│   │   ├── panel.tsx
+│   │   └── kbd.tsx
+│   ├── code-editor.tsx  # CodeMirror wrapper
+│   ├── file-explorer.tsx
+│   ├── preview-panel.tsx
+│   ├── prompt-input.tsx
+│   ├── header.tsx
+│   ├── empty-state.tsx
+│   ├── editor-tabs.tsx
+│   └── refinement-bar.tsx
+├── hooks/
+│   ├── use-chat.ts      # Chat state management
+│   └── use-editor.ts    # Editor state management
+├── api/
+│   └── v0/
+│       └── chat/
+│           └── route.ts # v0 API proxy
+├── types.ts             # TypeScript definitions
+├── globals.css          # Global styles
+├── layout.tsx           # Root layout
+└── page.tsx             # Main application
+```
+
+## Setup
 
 1. **Install dependencies:**
+
    ```bash
-   npm install
+   pnpm install
    ```
 
 2. **Configure API Key:**
-   - Get your API key from [v0 account settings](https://v0.app/chat/settings/keys)
-   - Add it to `.env.local`:
-     ```bash
-     V0_API_KEY=your_api_key_here
-     ```
 
-3. **Run the development server:**
+   Get your API key from [v0 account settings](https://v0.dev/chat/settings/keys) and create `.env.local`:
+
    ```bash
-   npm run dev
+   V0_API_KEY=your_api_key_here
    ```
 
-4. **View the demo:**
-   - Open [http://localhost:3000](http://localhost:3000) and click "Try v0 Demo"
-   - Or navigate directly to [http://localhost:3000/v0-demo](http://localhost:3000/v0-demo)
+3. **Run the development server:**
 
-### Features
+   ```bash
+   pnpm dev
+   ```
 
-The demo page (`/v0-demo`) showcases two main use cases:
+4. **Open your browser:**
 
-1. **Iframe Embedding**: Create a chat and embed it directly in your application using an iframe
-2. **Generated Files**: Access and display the generated code files from the chat
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-### Project Structure
+## Usage
 
-- `app/api/v0/chat/route.ts` - API route for creating chats and sending messages
-- `app/v0-demo/page.tsx` - Demo page component demonstrating both use cases
-- `.env.local` - Environment variables (API key)
+### Creating an App
 
-### Usage
+1. Enter your prompt in the input field (e.g., "Create a modern landing page")
+2. Click "Create" or press `⌘ + Enter`
+3. Watch your app generate in real-time
 
-The v0 SDK is automatically configured to use the `V0_API_KEY` environment variable. No additional initialization is needed:
+### Editing Code
 
-```typescript
-import { v0 } from 'v0-sdk'
+1. Select files from the sidebar or tabs
+2. Edit code in the CodeMirror editor with full syntax highlighting
+3. Changes are auto-saved to localStorage
 
-// Create a new chat
-const chat = await v0.chats.create({
-  message: 'Create a responsive navbar with Tailwind CSS'
-})
+### Preview Modes
 
-// Use the Demo URL in an iframe
-<iframe src={chat.demo} width="100%" height="600"></iframe>
+- **Code** - Focus on the code editor
+- **Split** - View code and preview side-by-side
+- **Preview** - Full-screen app preview
 
-// Access generated files
-chat.files?.forEach((file) => {
-  console.log(`File: ${file.name}`)
-  console.log(`Content: ${file.content}`)
-})
+### Responsive Testing
 
-// Continue the conversation
-const response = await v0.chats.sendMessage({
-  chatId: chat.id,
-  message: 'Add dark mode support',
-})
-```
+Use the device toggle buttons (Mobile/Tablet/Desktop) in the preview panel to test responsive layouts.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Refining Your App
 
-## Learn More
+Use quick action buttons or type custom refinement prompts to iterate on your app.
 
-To learn more about Next.js, take a look at the following resources:
+## Best Practices Implemented
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- ✅ Component-based architecture with separation of concerns
+- ✅ Custom hooks for state management
+- ✅ TypeScript for type safety
+- ✅ Consistent naming conventions
+- ✅ Accessible UI components
+- ✅ Responsive design patterns
+- ✅ Error handling with user feedback
+- ✅ Performance optimizations (memoization, lazy loading)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Environment Variables
 
-## Deploy on Vercel
+| Variable     | Description                    | Required |
+| ------------ | ------------------------------ | -------- |
+| `V0_API_KEY` | Your v0 Platform API key       | Yes      |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
