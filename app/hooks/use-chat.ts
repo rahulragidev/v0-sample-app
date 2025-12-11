@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import type { Chat, GeneratedFile } from '../types'
 
 interface UseChatReturn {
@@ -16,6 +16,31 @@ export function useChat(): UseChatReturn {
   const [chat, setChat] = useState<Chat | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Load chat from localStorage on mount
+  useEffect(() => {
+    try {
+      const savedChat = localStorage.getItem('v0-current-chat')
+      if (savedChat) {
+        setChat(JSON.parse(savedChat))
+      }
+    } catch {
+      // Ignore errors including JSON parse errors
+    }
+  }, [])
+
+  // Save chat to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      if (chat) {
+        localStorage.setItem('v0-current-chat', JSON.stringify(chat))
+      } else {
+        localStorage.removeItem('v0-current-chat')
+      }
+    } catch {
+      // Ignore errors
+    }
+  }, [chat])
 
   const createChat = useCallback(async (message: string) => {
     if (!message.trim()) {
@@ -77,6 +102,7 @@ export function useChat(): UseChatReturn {
   const resetChat = useCallback(() => {
     setChat(null)
     setError(null)
+    localStorage.removeItem('v0-current-chat')
   }, [])
 
   return {
@@ -88,3 +114,4 @@ export function useChat(): UseChatReturn {
     resetChat,
   }
 }
+
