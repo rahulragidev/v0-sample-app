@@ -6,7 +6,6 @@ import { javascript } from '@codemirror/lang-javascript'
 import { css } from '@codemirror/lang-css'
 import { html } from '@codemirror/lang-html'
 import { json } from '@codemirror/lang-json'
-import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView } from '@codemirror/view'
 
 interface CodeEditorProps {
@@ -16,41 +15,45 @@ interface CodeEditorProps {
   readOnly?: boolean
 }
 
-// Custom theme extension to match Cursor's dark theme
-const customTheme = EditorView.theme({
+// Custom Premium Zinc Theme
+const zincTheme = EditorView.theme({
   '&': {
-    backgroundColor: '#0a0a0a',
-    color: '#e5e5e5',
+    backgroundColor: 'transparent',
+    color: '#fafafa', // zinc-50
   },
   '.cm-content': {
-    caretColor: '#528bff',
-    fontFamily: 'var(--font-geist-mono), ui-monospace, monospace',
+    caretColor: '#3b82f6', // blue-500
+    fontFamily: 'var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace',
     fontSize: '13px',
     lineHeight: '1.6',
+    paddingTop: '16px',
+    paddingBottom: '16px',
   },
   '.cm-cursor': {
-    borderLeftColor: '#528bff',
+    borderLeftColor: '#3b82f6',
+    borderLeftWidth: '2px',
   },
   '.cm-activeLine': {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: 'rgba(255, 255, 255, 0.03)',
   },
   '.cm-gutters': {
-    backgroundColor: '#0a0a0a',
-    color: '#525252',
+    backgroundColor: 'transparent',
+    color: '#52525b', // zinc-600
     border: 'none',
+    paddingRight: '12px',
   },
   '.cm-activeLineGutter': {
-    backgroundColor: '#1a1a1a',
-    color: '#a3a3a3',
+    backgroundColor: 'transparent',
+    color: '#e4e4e7', // zinc-200
   },
   '.cm-selectionBackground, ::selection': {
-    backgroundColor: '#264f78 !important',
+    backgroundColor: 'rgba(59, 130, 246, 0.2) !important',
   },
   '.cm-focused .cm-selectionBackground': {
-    backgroundColor: '#264f78',
+    backgroundColor: 'rgba(59, 130, 246, 0.2)',
   },
   '.cm-line': {
-    padding: '0 16px',
+    padding: '0 8px',
   },
 })
 
@@ -86,23 +89,22 @@ export function CodeEditor({ value, onChange, filename, readOnly = false }: Code
 
   const extensions = useMemo(() => [
     getLanguageExtension(filename),
-    customTheme,
+    zincTheme,
     EditorView.lineWrapping,
   ], [filename])
 
   return (
-    <div className="h-full w-full overflow-hidden bg-[#0a0a0a]">
+    <div className="h-full w-full overflow-hidden bg-transparent">
       <CodeMirror
         value={value}
         onChange={handleChange}
         extensions={extensions}
-        theme={oneDark}
         readOnly={readOnly}
         basicSetup={{
           lineNumbers: true,
           highlightActiveLineGutter: true,
           highlightActiveLine: true,
-          foldGutter: true,
+          foldGutter: false,
           dropCursor: true,
           allowMultipleSelections: true,
           indentOnInput: true,

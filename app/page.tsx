@@ -11,6 +11,8 @@ import { PreviewPanel } from './components/preview-panel'
 import { RefinementBar } from './components/refinement-bar'
 import { useChat } from './hooks/use-chat'
 import { useEditor } from './hooks/use-editor'
+import { clsx } from 'clsx'
+import { Loader2 } from 'lucide-react'
 
 export default function Home() {
   const [prompt, setPrompt] = useState('')
@@ -79,7 +81,7 @@ export default function Home() {
   const showPreview = chat && chat.demo && viewMode !== 'code'
 
   return (
-    <div className="flex flex-col h-screen bg-neutral-950 text-white overflow-hidden">
+    <div className="flex flex-col h-screen bg-background text-foreground overflow-hidden selection:bg-blue-500/30">
       {/* Header */}
       <Header
         hasChat={!!chat}
@@ -91,36 +93,38 @@ export default function Home() {
       />
 
       {/* Main Content */}
-      <main className="flex-1 flex overflow-hidden">
+      <main className="flex-1 flex overflow-hidden relative">
         {!chat ? (
           // Empty State + Prompt Input
-          <div className="flex-1 flex flex-col">
-            <div className="flex-1 overflow-auto">
+          <div className="flex-1 flex flex-col items-center justify-center relative">
+            <div className="flex-1 w-full max-w-4xl mx-auto flex flex-col justify-center animate-in fade-in duration-700">
               <EmptyState onSuggestionClick={handleSuggestionClick} />
-            </div>
-            <div className="p-4 border-t border-neutral-800 bg-neutral-900/50">
-              <div className="max-w-3xl mx-auto">
+
+              <div className="mt-8 mx-auto w-full max-w-2xl px-4">
                 <PromptInput
                   value={prompt}
                   onChange={setPrompt}
                   onSubmit={handleCreateApp}
                   isLoading={isLoading}
-                  placeholder="Describe the app you want to create..."
+                  placeholder="Describe your app..."
                 />
                 {error && (
-                  <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm">
+                  <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-xs text-center">
                     {error}
                   </div>
                 )}
               </div>
             </div>
+
+            {/* Background ambient glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none -z-10" />
           </div>
         ) : (
           // Editor Layout
-          <div className="flex-1 flex overflow-hidden">
+          <div className="flex-1 flex overflow-hidden animate-in fade-in duration-500">
             {/* File Sidebar */}
             {showSidebar && (
-              <div className="w-56 shrink-0 border-r border-neutral-800 hidden lg:block">
+              <div className="w-60 shrink-0 border-r border-white/5 hidden lg:block bg-zinc-900/30">
                 <FileExplorer
                   files={files}
                   activeIndex={activeFileIndex}
@@ -132,8 +136,7 @@ export default function Home() {
 
             {/* Editor Panel */}
             {showEditor && (
-              <div className="flex flex-col flex-1 overflow-hidden border-r border-neutral-800">
-                {/* File Tabs */}
+              <div className="flex flex-col flex-1 overflow-hidden border-r border-white/5 bg-zinc-900/10">
                 <EditorTabs
                   files={files}
                   activeIndex={activeFileIndex}
@@ -141,8 +144,7 @@ export default function Home() {
                   editedFiles={editedFiles}
                 />
 
-                {/* Code Editor */}
-                <div className="flex-1 overflow-hidden">
+                <div className="flex-1 overflow-hidden relative">
                   {activeFile ? (
                     <CodeEditor
                       value={getFileContent(activeFile)}
@@ -150,7 +152,7 @@ export default function Home() {
                       filename={activeFile.name}
                     />
                   ) : (
-                    <div className="flex items-center justify-center h-full text-neutral-500">
+                    <div className="flex items-center justify-center h-full text-zinc-600 text-sm">
                       <p>Select a file to edit</p>
                     </div>
                   )}
@@ -160,17 +162,19 @@ export default function Home() {
 
             {/* Preview Panel */}
             {showPreview && chat.demo && (
-              <div className="flex-1 overflow-hidden">
+              <div className="flex-1 overflow-hidden bg-background">
                 <PreviewPanel url={chat.demo} />
               </div>
             )}
 
             {/* No Preview Available */}
             {viewMode !== 'code' && !chat.demo && (
-              <div className="flex-1 flex items-center justify-center bg-neutral-950">
-                <div className="text-center">
-                  <p className="text-neutral-500 mb-2">Preview not available</p>
-                  <p className="text-neutral-600 text-sm">The generated app doesn't have a preview URL</p>
+              <div className="flex-1 flex items-center justify-center bg-zinc-950/50">
+                <div className="text-center space-y-2">
+                  <div className="w-10 h-10 mx-auto rounded-full bg-zinc-900 flex items-center justify-center">
+                    <Loader2 className="w-5 h-5 text-zinc-500 animate-spin" />
+                  </div>
+                  <p className="text-zinc-500 text-sm">Waiting for preview...</p>
                 </div>
               </div>
             )}

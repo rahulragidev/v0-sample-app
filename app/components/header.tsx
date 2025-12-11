@@ -1,6 +1,6 @@
 'use client'
 
-import { Sparkles, Plus, Save, Code2, Eye, Columns2 } from 'lucide-react'
+import { Sparkles, Plus, Save, Code2, Eye, Columns2, Command } from 'lucide-react'
 import { Button } from './ui/button'
 import { clsx } from 'clsx'
 import type { ViewMode } from '../types'
@@ -23,20 +23,20 @@ export function Header({
   hasUnsavedChanges,
 }: HeaderProps) {
   return (
-    <header className="flex items-center justify-between px-4 py-3 border-b border-neutral-800 bg-neutral-900/80 backdrop-blur-sm">
+    <header className="flex items-center justify-between px-4 h-14 border-b border-white/5 bg-background/50 backdrop-blur-xl sticky top-0 z-50">
       {/* Logo */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-            <Sparkles className="w-4 h-4 text-white" />
+        <div className="flex items-center gap-2 group cursor-pointer">
+          <div className="w-8 h-8 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition-colors">
+            <Command className="w-4 h-4 text-zinc-100" />
           </div>
-          <span className="text-lg font-semibold text-white">AppBuilder</span>
+          <span className="text-sm font-medium text-zinc-200 tracking-tight">AppBuilder</span>
         </div>
       </div>
 
       {/* View Mode Toggle (only when chat exists) */}
       {hasChat && (
-        <div className="flex items-center gap-1 p-1 bg-neutral-800/50 rounded-lg">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-0.5 p-0.5 bg-zinc-900/50 border border-white/5 rounded-lg backdrop-blur-md">
           <ViewModeButton
             mode="code"
             currentMode={viewMode}
@@ -69,17 +69,25 @@ export function Header({
               variant="ghost"
               size="sm"
               onClick={onSave}
-              className={clsx(hasUnsavedChanges && 'text-blue-400')}
+              className={clsx(
+                "h-8 text-xs font-medium text-zinc-400 hover:text-zinc-100 transition-colors",
+                hasUnsavedChanges && 'text-blue-400 hover:text-blue-300'
+              )}
             >
-              <Save className="w-4 h-4" />
-              <span className="hidden sm:inline">Save</span>
+              <Save className="w-3.5 h-3.5 mr-2" />
+              Save
               {hasUnsavedChanges && (
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                <span className="w-1.5 h-1.5 ml-1.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
               )}
             </Button>
-            <Button variant="secondary" size="sm" onClick={onNewChat}>
-              <Plus className="w-4 h-4" />
-              <span className="hidden sm:inline">New</span>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onNewChat}
+              className="h-8 text-xs bg-zinc-100 text-zinc-900 hover:bg-white border-0"
+            >
+              <Plus className="w-3.5 h-3.5 mr-1.5" />
+              New Project
             </Button>
           </>
         )}
@@ -103,10 +111,10 @@ function ViewModeButton({ mode, currentMode, icon: Icon, label, onClick }: ViewM
     <button
       onClick={onClick}
       className={clsx(
-        'flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-colors',
+        'flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-medium rounded-md transition-all duration-200',
         isActive
-          ? 'bg-neutral-700 text-white'
-          : 'text-neutral-400 hover:text-white'
+          ? 'bg-zinc-800 text-zinc-100 shadow-sm'
+          : 'text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50'
       )}
     >
       <Icon className="w-3.5 h-3.5" />

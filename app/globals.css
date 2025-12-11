@@ -1,19 +1,72 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0a0a0a;
-  --foreground: #fafafa;
-}
-
-@theme inline {
+@theme {
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-* {
-  box-sizing: border-box;
+:root {
+  /* ZINC Palette approach for that "premium technical" feel */
+  --background: #09090b; /* zinc-950 */
+  --foreground: #fafafa; /* zinc-50 */
+
+  --card: #09090b;
+  --card-foreground: #fafafa;
+
+  --popover: #09090b;
+  --popover-foreground: #fafafa;
+
+  --primary: #fafafa;
+  --primary-foreground: #18181b; /* zinc-900 */
+
+  --secondary: #27272a; /* zinc-800 */
+  --secondary-foreground: #fafafa;
+
+  --muted: #27272a; /* zinc-800 */
+  --muted-foreground: #a1a1aa; /* zinc-400 */
+
+  --accent: #27272a; /* zinc-800 */
+  --accent-foreground: #fafafa;
+
+  --destructive: #7f1d1d;
+  --destructive-foreground: #fafafa;
+
+  --border: #27272a; /* zinc-800 */
+  --input: #27272a;
+  --ring: #d4d4d8; /* zinc-300 */
+
+  --radius: 0.5rem;
 }
 
 html,
@@ -24,17 +77,17 @@ body {
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar styling */
+/* Premium Scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -42,44 +95,40 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #404040;
-  border-radius: 4px;
+  background: #3f3f46; /* zinc-700 */
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #525252;
+  background: #52525b; /* zinc-600 */
 }
 
-/* CodeMirror overrides for perfect fit */
+/* CodeMirror Optimizations */
 .cm-editor {
   height: 100% !important;
+  background-color: transparent !important;
 }
 
 .cm-scroller {
   overflow: auto !important;
+  font-family: var(--font-geist-mono) !important;
 }
 
-/* Focus visible styles */
-:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
+.cm-gutters {
+  background-color: transparent !important;
+  border-right: none !important;
+  color: #71717a !important; /* zinc-500 */
 }
 
-/* Selection color */
-::selection {
-  background: #264f78;
-  color: #fff;
+/* Utilities */
+.glass {
+  background: rgba(9, 9, 11, 0.6);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* very subtle white border */
 }
 
-/* Placeholder styling */
-::placeholder {
-  color: #525252;
-}
-
-/* Line clamp utility */
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.glass-panel {
+  background: rgba(39, 39, 42, 0.4); /* zinc-800 with opacity */
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }

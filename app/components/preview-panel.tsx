@@ -30,10 +30,10 @@ export function PreviewPanel({ url }: PreviewPanelProps) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-neutral-950">
+    <div className="flex flex-col h-full bg-background border-l border-white/5">
       {/* Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-neutral-800 bg-neutral-900/50">
-        <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between px-3 py-2 border-b border-white/5 bg-zinc-900/10 backdrop-blur-sm">
+        <div className="flex items-center gap-0.5 p-0.5 bg-zinc-900/50 rounded-lg border border-white/5">
           {(Object.keys(deviceSizes) as DeviceSize[]).map((size) => {
             const { icon: Icon, label } = deviceSizes[size]
             return (
@@ -43,6 +43,10 @@ export function PreviewPanel({ url }: PreviewPanelProps) {
                 size="sm"
                 onClick={() => setDevice(size)}
                 title={label}
+                className={clsx(
+                  "h-7 w-7 p-0",
+                  device === size ? "bg-zinc-700 text-zinc-100" : "text-zinc-500 hover:text-zinc-300"
+                )}
               >
                 <Icon className="w-4 h-4" />
               </Button>
@@ -51,21 +55,33 @@ export function PreviewPanel({ url }: PreviewPanelProps) {
         </div>
 
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="sm" onClick={handleRefresh} title="Refresh">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleRefresh}
+            title="Refresh"
+            className="h-8 w-8 p-0 text-zinc-500 hover:text-zinc-200"
+          >
             <RefreshCw className="w-4 h-4" />
           </Button>
-          <Button variant="ghost" size="sm" onClick={handleOpenExternal} title="Open in new tab">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleOpenExternal}
+            title="Open in new tab"
+            className="h-8 w-8 p-0 text-zinc-500 hover:text-zinc-200"
+          >
             <ExternalLink className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
       {/* Preview Frame */}
-      <div className="flex-1 flex items-start justify-center p-4 overflow-auto bg-neutral-950">
+      <div className="flex-1 flex items-start justify-center p-6 overflow-auto bg-[url('/grid-pattern.svg')] bg-repeat opacity-100">
         <div
           className={clsx(
-            'h-full bg-white rounded-lg overflow-hidden shadow-2xl transition-all duration-300',
-            device !== 'desktop' && 'border border-neutral-800'
+            'h-full bg-white transition-all duration-500 ease-in-out shadow-2xl',
+            device !== 'desktop' && 'border-4 border-zinc-900 rounded-4xl h-[800px] max-h-full'
           )}
           style={{
             width: deviceSizes[device].width,
@@ -75,7 +91,7 @@ export function PreviewPanel({ url }: PreviewPanelProps) {
           <iframe
             key={key}
             src={url}
-            className="w-full h-full border-0"
+            className="w-full h-full border-0 rounded-[inherit]"
             title="App Preview"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
           />
