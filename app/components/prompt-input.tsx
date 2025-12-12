@@ -4,6 +4,7 @@ import { useRef, useEffect } from 'react'
 import { Sparkles, ArrowRight } from 'lucide-react'
 import { Button } from './ui/button'
 import { Kbd } from './ui/kbd'
+import { Textarea } from './ui/textarea'
 
 interface PromptInputProps {
   value: string
@@ -50,13 +51,13 @@ export function PromptInput({
     <div className="relative group">
       <div
         className="
-          relative bg-zinc-900/50 overflow-hidden transition-all duration-300
+          relative bg-muted/50 overflow-hidden transition-all duration-300
           border border-white/5 shadow-2xl rounded-xl
-          focus-within:border-white/10 focus-within:ring-1 focus-within:ring-white/10 focus-within:bg-zinc-900/80
-          group-hover:border-white/10
+          focus-within:border-foreground/20 focus-within:ring-1 focus-within:ring-foreground/20 focus-within:bg-muted/80
+          group-hover:border-foreground/10
         "
       >
-        <textarea
+        <Textarea
           ref={textareaRef}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -65,16 +66,16 @@ export function PromptInput({
           rows={1}
           disabled={isLoading}
           className="
-            w-full px-5 py-5 pr-32 bg-transparent text-zinc-100 
-            placeholder-zinc-500 resize-none focus:outline-none 
-            text-sm leading-relaxed font-sans tracking-wide
+            min-h-[64px] w-full px-5 py-5 pr-32 bg-transparent border-0 focus-visible:ring-0
+            text-foreground placeholder:text-muted-foreground resize-none
+            text-sm leading-relaxed font-sans tracking-wide shadow-none
           "
           style={{ minHeight: '64px' }}
         />
 
         <div className="absolute right-3 bottom-3 flex items-center gap-2">
           {!value && (
-            <div className="hidden sm:flex items-center gap-2 text-xs text-zinc-600 mr-2">
+            <div className="hidden sm:flex items-center gap-2 text-xs text-muted-foreground mr-2">
               <span>Press</span>
               <Kbd>⌘</Kbd>
               <Kbd>↵</Kbd>
@@ -87,11 +88,8 @@ export function PromptInput({
             onClick={onSubmit}
             disabled={!value.trim() || isLoading}
             isLoading={isLoading}
-            className="
-              h-8 px-3 transition-all duration-300
-              disabled:opacity-0 disabled:translate-x-2
-              bg-white text-zinc-950 hover:bg-zinc-200
-            "
+            variant="primary"
+            className="h-8 px-3 transition-all duration-300 disabled:opacity-0 disabled:translate-x-2"
           >
             {isLoading ? (
               <span className="text-xs">Generating...</span>

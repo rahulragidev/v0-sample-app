@@ -36,14 +36,14 @@ function getFileIcon(filename: unknown) {
 
 export function FileExplorer({ files, activeIndex, onFileSelect, editedFiles }: FileExplorerProps) {
   return (
-    <div className="flex flex-col h-full bg-zinc-900/30 border-r border-white/5">
+    <div className="flex flex-col h-full bg-muted/30 border-r border-border">
       {/* Header */}
       <div className="px-4 py-3 flex items-center justify-between group">
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-zinc-400 uppercase tracking-wider group-hover:text-zinc-200 transition-colors">
+        <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider group-hover:text-foreground transition-colors">
           <Folder className="w-3.5 h-3.5" />
           <span>Explorer</span>
         </div>
-        <span className="text-[10px] text-zinc-600 font-mono">{files.length}</span>
+        <span className="text-[10px] text-muted-foreground font-mono">{files.length}</span>
       </div>
 
       {/* File List */}

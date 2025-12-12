@@ -81,7 +81,7 @@ export default function Home() {
   const showPreview = chat && chat.demo && viewMode !== 'code'
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground overflow-hidden selection:bg-blue-500/30">
+    <div className="flex flex-col h-screen bg-background text-foreground overflow-hidden selection:bg-primary/30">
       {/* Header */}
       <Header
         hasChat={!!chat}
@@ -109,7 +109,7 @@ export default function Home() {
                   placeholder="Describe your app..."
                 />
                 {error && (
-                  <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-xs text-center">
+                  <div className="mt-4 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive text-xs text-center">
                     {error}
                   </div>
                 )}
@@ -117,14 +117,14 @@ export default function Home() {
             </div>
 
             {/* Background ambient glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-blue-500/5 blur-[100px] rounded-full pointer-events-none -z-10" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 blur-[100px] rounded-full pointer-events-none -z-10" />
           </div>
         ) : (
           // Editor Layout
           <div className="flex-1 flex overflow-hidden animate-in fade-in duration-500">
             {/* File Sidebar */}
             {showSidebar && (
-              <div className="w-60 shrink-0 border-r border-white/5 hidden lg:block bg-zinc-900/30">
+              <div className="w-60 shrink-0 border-r border-white/5 hidden lg:block bg-muted/30">
                 <FileExplorer
                   files={files}
                   activeIndex={activeFileIndex}
@@ -136,7 +136,7 @@ export default function Home() {
 
             {/* Editor Panel */}
             {showEditor && (
-              <div className="flex flex-col flex-1 overflow-hidden border-r border-white/5 bg-zinc-900/10">
+              <div className="flex flex-col flex-1 overflow-hidden border-r border-white/5 bg-muted/10">
                 <EditorTabs
                   files={files}
                   activeIndex={activeFileIndex}

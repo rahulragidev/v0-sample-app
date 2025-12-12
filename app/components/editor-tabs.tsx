@@ -34,7 +34,7 @@ export function EditorTabs({ files, activeIndex, onTabClick, editedFiles }: Edit
   if (files.length === 0) return null
 
   return (
-    <div className="flex items-center gap-0.5 px-2 py-0 border-b border-white/5 bg-zinc-900/30 overflow-x-auto min-h-[36px]">
+    <div className="flex items-center gap-0.5 px-2 py-0 border-b border-border bg-muted/30 overflow-x-auto min-h-[36px]">
       {files.map((file, index) => {
         const fileName = typeof file?.name === 'string' ? file.name : null
         if (!fileName) return null

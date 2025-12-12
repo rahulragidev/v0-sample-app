@@ -1,8 +1,8 @@
 import { forwardRef, type ButtonHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 
-type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger'
-type ButtonSize = 'sm' | 'md' | 'lg'
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline'
+type ButtonSize = 'sm' | 'md' | 'lg' | 'icon'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant
@@ -11,16 +11,18 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary: 'bg-blue-600 text-white hover:bg-blue-700 border-blue-600',
-  secondary: 'bg-neutral-800 text-neutral-200 hover:bg-neutral-700 border-neutral-700',
-  ghost: 'bg-transparent text-neutral-400 hover:text-neutral-200 hover:bg-neutral-800 border-transparent',
-  danger: 'bg-red-600/10 text-red-400 hover:bg-red-600/20 border-red-600/20',
+  primary: 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm border-transparent',
+  secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 border-transparent',
+  ghost: 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-accent border-transparent',
+  danger: 'bg-destructive text-destructive-foreground hover:bg-destructive/90 border-transparent',
+  outline: 'border-input bg-background hover:bg-accent hover:text-accent-foreground',
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-2.5 py-1.5 text-xs gap-1.5',
-  md: 'px-3 py-2 text-sm gap-2',
-  lg: 'px-4 py-2.5 text-sm gap-2',
+  sm: 'h-8 px-3 text-xs gap-1.5',
+  md: 'h-9 px-4 py-2 text-sm gap-2',
+  lg: 'h-10 px-8 text-sm gap-2',
+  icon: 'h-9 w-9',
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
