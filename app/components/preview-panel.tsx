@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { ExternalLink, RefreshCw, Smartphone, Monitor, Tablet } from 'lucide-react'
 import { Button } from './ui/button'
+import { ToggleGroup, ToggleGroupItem } from './ui/toggle-group'
+import { Tooltip } from './ui/tooltip'
 import { clsx } from 'clsx'
 
 interface PreviewPanelProps {
@@ -30,49 +32,51 @@ export function PreviewPanel({ url }: PreviewPanelProps) {
   }
 
   return (
-    <div className="flex flex-col h-full bg-background border-l border-white/5">
-      {/* Toolbar */}
-      <div className="flex items-center justify-between px-3 py-2 border-b border-white/5 bg-zinc-900/10 backdrop-blur-sm">
-        <div className="flex items-center gap-0.5 p-0.5 bg-zinc-900/50 rounded-lg border border-white/5">
+    <div className="flex flex-col h-full bg-background/50 border-l border-white/5 backdrop-blur-sm relative group">
+      {/* Floating Toolbar */}
+      <div className="absolute top-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 p-1.5 rounded-full bg-zinc-900/80 backdrop-blur-md border border-white/10 shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-[-10px] group-hover:translate-y-0">
+        <ToggleGroup
+          type="single"
+          value={device}
+          onValueChange={(val) => val && setDevice(val as DeviceSize)}
+          className="gap-1"
+        >
           {(Object.keys(deviceSizes) as DeviceSize[]).map((size) => {
             const { icon: Icon, label } = deviceSizes[size]
             return (
-              <Button
-                key={size}
-                variant={device === size ? 'secondary' : 'ghost'}
-                size="sm"
-                onClick={() => setDevice(size)}
-                title={label}
-                className={clsx(
-                  "h-7 w-7 p-0",
-                  device === size ? "bg-zinc-700 text-zinc-100" : "text-zinc-500 hover:text-zinc-300"
-                )}
-              >
-                <Icon className="w-4 h-4" />
-              </Button>
+              <Tooltip key={size} content={label} side="bottom">
+                <ToggleGroupItem value={size} aria-label={label} className="w-8 h-8 rounded-full data-[state=on]:bg-white/20 data-[state=on]:text-white text-zinc-400 hover:text-white hover:bg-white/10 transition-all duration-200">
+                  <Icon className="w-4 h-4" />
+                </ToggleGroupItem>
+              </Tooltip>
             )
           })}
-        </div>
+        </ToggleGroup>
+
+        <div className="w-px h-4 bg-white/10" />
 
         <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleRefresh}
-            title="Refresh"
-            className="h-8 w-8 p-0 text-zinc-500 hover:text-zinc-200"
-          >
-            <RefreshCw className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleOpenExternal}
-            title="Open in new tab"
-            className="h-8 w-8 p-0 text-zinc-500 hover:text-zinc-200"
-          >
-            <ExternalLink className="w-4 h-4" />
-          </Button>
+          <Tooltip content="Refresh Preview" side="bottom">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleRefresh}
+              className="text-zinc-400 hover:text-white w-8 h-8 rounded-full hover:bg-white/10 transition-all duration-200"
+            >
+              <RefreshCw className="w-4 h-4" />
+            </Button>
+          </Tooltip>
+
+          <Tooltip content="Open in New Tab" side="bottom">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleOpenExternal}
+              className="text-zinc-400 hover:text-white w-8 h-8 rounded-full hover:bg-white/10 transition-all duration-200"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </Button>
+          </Tooltip>
         </div>
       </div>
 

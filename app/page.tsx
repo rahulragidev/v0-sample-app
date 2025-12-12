@@ -21,6 +21,7 @@ export default function Home() {
     activeFileIndex,
     editedFiles,
     viewMode,
+    openFiles,
     setActiveFileIndex,
     setViewMode,
     updateFileContent,
@@ -30,6 +31,8 @@ export default function Home() {
     saveToLocalStorage,
     loadFromLocalStorage,
     reset: resetEditor,
+    openFile,
+    closeFile,
   } = useEditor()
 
   // Initialize files when chat is created
@@ -124,11 +127,14 @@ export default function Home() {
           <div className="flex-1 flex overflow-hidden animate-in fade-in duration-500">
             {/* File Sidebar */}
             {showSidebar && (
-              <div className="w-60 shrink-0 border-r border-white/5 hidden lg:block bg-muted/30">
+              <div className="w-60 shrink-0 border-r border-white/5 hidden lg:block bg-background/20 backdrop-blur-sm">
                 <FileExplorer
                   files={files}
                   activeIndex={activeFileIndex}
-                  onFileSelect={setActiveFileIndex}
+                  onFileSelect={(index) => {
+                    const file = files[index];
+                    if (file) openFile(file.name, files);
+                  }}
                   editedFiles={editedFiles}
                 />
               </div>
@@ -136,15 +142,23 @@ export default function Home() {
 
             {/* Editor Panel */}
             {showEditor && (
-              <div className="flex flex-col flex-1 overflow-hidden border-r border-white/5 bg-muted/10">
+              <div className="flex flex-col flex-1 overflow-hidden border-r border-white/5 bg-transparent">
                 <EditorTabs
                   files={files}
-                  activeIndex={activeFileIndex}
-                  onTabClick={setActiveFileIndex}
+                  activeFile={activeFile}
+                  openFiles={openFiles}
+                  onTabClick={(index) => {
+                    const file = files[index]
+                    if (file) openFile(file.name, files)
+                  }}
+                  onCloseTab={(name) => closeFile(name, files)}
                   editedFiles={editedFiles}
                 />
 
                 <div className="flex-1 overflow-hidden relative">
+                  {/* Editor Glow (subtle) */}
+                  <div className="absolute inset-0 bg-linear-to-tr from-primary/5 via-transparent to-transparent pointer-events-none" />
+
                   {activeFile ? (
                     <CodeEditor
                       value={getFileContent(activeFile)}
@@ -152,7 +166,7 @@ export default function Home() {
                       filename={activeFile.name}
                     />
                   ) : (
-                    <div className="flex items-center justify-center h-full text-zinc-600 text-sm">
+                    <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
                       <p>Select a file to edit</p>
                     </div>
                   )}
@@ -162,7 +176,7 @@ export default function Home() {
 
             {/* Preview Panel */}
             {showPreview && chat.demo && (
-              <div className="flex-1 overflow-hidden bg-background">
+              <div className="flex-1 overflow-hidden bg-transparent">
                 <PreviewPanel url={chat.demo} />
               </div>
             )}

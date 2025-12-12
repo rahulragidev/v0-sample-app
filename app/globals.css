@@ -37,9 +37,11 @@
 }
 
 :root {
-  /* ZINC Palette approach for that "premium technical" feel */
-  --background: #09090b; /* zinc-950 */
-  --foreground: #fafafa; /* zinc-50 */
+  /* Premium Dark Palette - "First Principles" Approach */
+  /* Using alpha channels for depth and clarity instead of solid gray blocks */
+
+  --background: #030304; /* Deeper than zinc-950 for infinite depth */
+  --foreground: #ffffff;
 
   --card: #09090b;
   --card-foreground: #fafafa;
@@ -48,25 +50,25 @@
   --popover-foreground: #fafafa;
 
   --primary: #fafafa;
-  --primary-foreground: #18181b; /* zinc-900 */
+  --primary-foreground: #000000;
 
-  --secondary: #27272a; /* zinc-800 */
+  --secondary: rgba(255, 255, 255, 0.08); /* Translucent styling */
   --secondary-foreground: #fafafa;
 
-  --muted: #27272a; /* zinc-800 */
-  --muted-foreground: #a1a1aa; /* zinc-400 */
+  --muted: rgba(255, 255, 255, 0.04);
+  --muted-foreground: #a1a1aa;
 
-  --accent: #27272a; /* zinc-800 */
+  --accent: rgba(255, 255, 255, 0.08);
   --accent-foreground: #fafafa;
 
-  --destructive: #7f1d1d;
+  --destructive: #5a1d1d;
   --destructive-foreground: #fafafa;
 
-  --border: #27272a; /* zinc-800 */
-  --input: #27272a;
-  --ring: #d4d4d8; /* zinc-300 */
+  --border: rgba(255, 255, 255, 0.06); /* Extremely subtle boundaries */
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: rgba(255, 255, 255, 0.2);
 
-  --radius: 0.5rem;
+  --radius: 0.6rem; /* Slightly softer corners */
 }
 
 html,
@@ -84,7 +86,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Premium Scrollbars */
+/* Premium Scrollbars - Minimal & Hidden when inactive logic handled by OS usually, but styling here */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -95,12 +97,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46; /* zinc-700 */
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b; /* zinc-600 */
+  background: rgba(255, 255, 255, 0.2);
 }
 
 /* CodeMirror Optimizations */
@@ -117,18 +119,21 @@ body {
 .cm-gutters {
   background-color: transparent !important;
   border-right: none !important;
-  color: #71717a !important; /* zinc-500 */
+  color: #52525b !important;
 }
 
 /* Utilities */
 .glass {
-  background: rgba(9, 9, 11, 0.6);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* very subtle white border */
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
 .glass-panel {
-  background: rgba(39, 39, 42, 0.4); /* zinc-800 with opacity */
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(15, 15, 17, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
